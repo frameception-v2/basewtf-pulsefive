@@ -1,3 +1,4 @@
-export const PROJECT_ID = 'farcaster-frames-template';
-export const PROJECT_TITLE = "Farcaster Frames Template";
-export const PROJECT_DESCRIPTION = "A Farcaster Frames v2 Template by hellno";
+export const PROJECT_ID = 'pulsefive';
+export const PROJECT_TITLE = "PulseFive Countdown";
+export const PROJECT_DESCRIPTION = "Countdown to the next basewtf event";
+export const EVENT_TIME = new Date('2025-01-24T17:00:00Z'); // 5pm Friday UTC

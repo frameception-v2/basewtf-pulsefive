@@ -15,21 +15,56 @@ import { base, optimism } from "wagmi/chains";
 import { useSession } from "next-auth/react";
 import { createStore } from "mipd";
 import { Label } from "~/components/ui/label";
-import { PROJECT_TITLE } from "~/lib/constants";
+import { PROJECT_TITLE, EVENT_TIME } from "~/lib/constants";
 
-function ExampleCard() {
+function CountdownCard() {
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  function calculateTimeLeft() {
+    const difference = +EVENT_TIME - +new Date();
+    return {
+      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / 1000 / 60) % 60),
+      seconds: Math.floor((difference / 1000) % 60),
+    };
+  }
+
   return (
     <Card className="border-neutral-200 bg-white">
       <CardHeader>
-        <CardTitle className="text-neutral-900">Welcome to the Frame Template</CardTitle>
+        <CardTitle className="text-neutral-900">Next basewtf Event</CardTitle>
         <CardDescription className="text-neutral-600">
-          This is an example card that you can customize or remove
+          Countdown to 5pm Friday UTC
         </CardDescription>
       </CardHeader>
       <CardContent className="text-neutral-800">
-        <p>
-          Your frame content goes here. The text is intentionally dark to ensure good readability.
-        </p>
+        <div className="grid grid-cols-4 gap-2 text-center">
+          <div>
+            <div className="text-2xl font-bold">{timeLeft.days}</div>
+            <div className="text-sm">Days</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold">{timeLeft.hours}</div>
+            <div className="text-sm">Hours</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold">{timeLeft.minutes}</div>
+            <div className="text-sm">Minutes</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold">{timeLeft.seconds}</div>
+            <div className="text-sm">Seconds</div>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
@@ -137,7 +172,7 @@ export default function Frame(
     >
       <div className="w-[300px] mx-auto py-2 px-2">
         <h1 className="text-2xl font-bold text-center mb-4 text-neutral-900">{title}</h1>
-        <ExampleCard />
+        <CountdownCard />
       </div>
     </div>
   );
